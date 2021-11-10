@@ -29,45 +29,55 @@ const radio = [
 ];
 
 const Form = () => {
+  const initialValue = {
+    email: "",
+    name: "",
+    skills: [...Array(5).fill(false)],
+    gender: "",
+  };
+
   // states
 
-  const [emailValue, setEmailValue] = useState("");
-  const [nameValue, setNameValue] = useState("");
-  const [checkedState, setCheckedState] = useState(
-    new Array(checkBox.length).fill(false)
-  );
-  const [genderValue, setGenderValue] = useState(null);
-
-  const [emailError, setEmailError] = useState(null);
-  const [nameError, setNameError] = useState(null);
-  const [checkError, setCheckError] = useState(null);
+  const [formValue, setFormValue] = useState(initialValue);
+  const [formErrors, setFormErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
 
   // functions
 
   const handleOnChange = (position) => {
-    const updatedCheckedState = checkedState.map((item, index) =>
+    const updatedCheckedState = formValue.skills.map((item, index) =>
       index === position ? !item : item
     );
-    setCheckedState(updatedCheckedState);
+    setFormValue({ ...formValue, skills: updatedCheckedState });
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormValue({ ...formValue, [name]: value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setFormErrors(validate(formValue));
+    setIsSubmit(true);
+  };
 
-    const validEmail = validator.isEmail(emailValue);
-    const checked = checkedState.includes(true);
-
-    if (!emailValue) {
-      setEmailError("Email field is required.");
-    } else {
-      validEmail ? setEmailError("") : setEmailError("Enter a valid email !");
+  const validate = (values) => {
+    const errors = {};
+    const validate = validator.isEmail(values.email);
+    if (!values.email) {
+      errors.email = "Email is required.";
+    } else if (!validate) {
+      errors.email = "Enter a valid email address !";
     }
-    !nameValue ? setNameError("Name field is required.") : setNameError("");
-    !checked ? setCheckError("Skills field is required.") : setCheckError("");
+    if (!values.name) errors.name = "Name is required.";
+    if (!values.skills.includes(true)) errors.skills = "Skills is required.";
+
+    return errors;
   };
 
   const getSkills = useCallback(() => {
-    const index = checkedState.reduce(
+    const index = formValue.skills.reduce(
       (acc, val, ind) => (val === true ? acc.concat(ind) : acc),
       []
     );
@@ -77,37 +87,19 @@ const Form = () => {
     );
 
     return skills;
-  }, [checkedState]);
+  }, [formValue]);
 
   useEffect(() => {
-    const value =
-      emailValue &&
-      nameValue &&
-      checkedState &&
-      emailError &&
-      nameError &&
-      checkError;
-
-    if (value) {
+    if (Object.keys(formErrors).length === 0 && isSubmit) {
       const object = {
-        email: emailValue,
-        name: nameValue,
+        email: formValue.email,
+        name: formValue.name,
         skills: getSkills(),
-        gender: genderValue && genderValue.toLowerCase(),
+        gender: formValue.gender.toLowerCase(),
       };
-
       console.log(object);
     }
-  }, [
-    emailValue,
-    nameValue,
-    checkedState,
-    emailError,
-    nameError,
-    checkError,
-    genderValue,
-    getSkills,
-  ]);
+  }, [formErrors, isSubmit, formValue, getSkills]);
 
   return (
     <div className="flex justify-center p-10">
@@ -120,10 +112,11 @@ const Form = () => {
           <input
             type="text"
             className="w-full border-2 focus:border-blue-400 outline-none px-3 py-1 rounded-md mt-1"
-            value={emailValue}
-            onChange={(e) => setEmailValue(e.target.value)}
+            value={formValue.email}
+            name="email"
+            onChange={handleChange}
           />
-          <p className="mt-1 text-red-500">{emailError}</p>
+          <p className="mt-1 text-red-500">{formErrors.email}</p>
         </label>
 
         <label className="mt-4 w-full">
@@ -131,10 +124,11 @@ const Form = () => {
           <input
             type="text"
             className="w-full border-2 focus:border-blue-400 outline-none px-3 py-1 rounded-md mt-1"
-            value={nameValue}
-            onChange={(e) => setNameValue(e.target.value)}
+            value={formValue.name}
+            name="name"
+            onChange={handleChange}
           />
-          <p className="mt- text-red-500">{nameError}</p>
+          <p className="mt- text-red-500">{formErrors.name}</p>
         </label>
 
         <div className="mt-4">
@@ -148,7 +142,7 @@ const Form = () => {
                     id={`custom-checkbox-${ind}`}
                     name={name}
                     value={name}
-                    checked={checkedState[ind]}
+                    checked={formValue.skills[ind]}
                     onChange={() => handleOnChange(ind)}
                   />
                   <label htmlFor={`custom-checkbox-${ind}`} className="ml-1">
@@ -158,10 +152,10 @@ const Form = () => {
               );
             })}
           </div>
-          <p className="text-red-500">{checkError}</p>
+          <p className="text-red-500">{formErrors.skills}</p>
         </div>
 
-        <div className="mt-4" onChange={(e) => setGenderValue(e.target.value)}>
+        <div className="mt-4" onChange={handleChange}>
           <p className="mb-1">Gender :</p>
           {radio.map(({ name }, ind) => {
             return (
