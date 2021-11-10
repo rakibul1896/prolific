@@ -37,13 +37,11 @@ const Form = () => {
   };
 
   // states
-
   const [formValue, setFormValue] = useState(initialValue);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
 
   // functions
-
   const handleOnChange = (position) => {
     const updatedCheckedState = formValue.skills.map((item, index) =>
       index === position ? !item : item

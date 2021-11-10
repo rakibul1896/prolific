@@ -8,6 +8,7 @@ module.exports = {
       },
       width: {
         350: "87.5rem",
+        "40p": "40%",
       },
       maxHeight: {},
       minHeight: {
