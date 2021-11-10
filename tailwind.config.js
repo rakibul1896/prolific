@@ -11,7 +11,7 @@ module.exports = {
       },
       maxHeight: {},
       minHeight: {
-        "80v": "80vh",
+        "60v": "60vh",
       },
       screens: {
         smp: "400px",
