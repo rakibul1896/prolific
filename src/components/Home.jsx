@@ -13,7 +13,7 @@ const Home = () => {
 
         <div className="py-8">
           <h1 className="text-2xl">MD. Rakibul Hasan</h1>
-          <h6 className="">Front End Developer (React)</h6>
+          <h6 className="">Front End Developer (React Js)</h6>
         </div>
       </div>
       <div className="flex items-center px-5 md:px-10 xl:px-20 flex-1 text-center md:text-left">

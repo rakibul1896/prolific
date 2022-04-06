@@ -8,6 +8,7 @@ import Search from "./components/Search";
 import Form from "./components/Form";
 import Info from "./components/Info";
 import Menu from "./components/Menu";
+import JsonFile from "./components/JsonFile";
 
 const route = [
   {
@@ -29,6 +30,10 @@ const route = [
   {
     path: "bonus",
     element: <Menu />,
+  },
+  {
+    path: "jsonfile",
+    element: <JsonFile />,
   },
 ];
 

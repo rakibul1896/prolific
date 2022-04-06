@@ -142,4 +142,4 @@ const { rootId, items } = content;
   });
 
 
-  export {formattedItems , itemsArray, rootId};
+  export {content, formattedItems , itemsArray, rootId};

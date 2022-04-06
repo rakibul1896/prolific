@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { formattedItems as data, itemsArray, rootId } from "../data/MenuJson";
+import React, { useEffect, useState } from 'react';
+import { formattedItems as data, itemsArray, rootId } from '../data/MenuJson';
+import { AiFillCaretUp, AiFillCaretDown } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
 
 const Menu = () => {
   const { items } = data[0];
 
   const initialValue = () => {
-    const val = itemsArray
+    return itemsArray
       .filter((x) => x.hasChildren && x.id !== rootId)
       .reduce((a, v) => a.concat({ name: v.data.name, isShow: false }), []);
-    return val;
   };
 
   const [visibilities, setVisibilities] = useState(initialValue());
-  // console.log(visibilities);
 
   const handleClick = (event) => {
     event.preventDefault();
@@ -51,21 +51,33 @@ const Menu = () => {
   }, [visibilities]);
 
   const dropDown = (data) => {
-    return data.map((val, index) => {
+    return data.map((val) => {
       return (
         <div
-          className="ml-5"
+          className="ml-5 cursor-pointer"
           key={val.id}
           data-children={val.items.length > 0 && val.label}
           onClick={handleClick}
         >
-          {val.label}
+          <div className="flex items-center">
+            {val.label}
+            <div className="text-sm ml-1.5">
+              {val.items.length > 0 ? (
+                showItems(val.label) ? (
+                  <AiFillCaretUp className=" text-blue-400" />
+                ) : (
+                  <AiFillCaretDown />
+                )
+              ) : (
+                ''
+              )}
+            </div>
+          </div>
           <div
             className={
-              val.items.length > 0 && showItems(val.label) ? "block" : "hidden"
+              val.items.length > 0 && showItems(val.label) ? 'block' : 'hidden'
             }
           >
-            {}
             {val.items && dropDown(val.items)}
           </div>
         </div>
@@ -74,44 +86,20 @@ const Menu = () => {
   };
 
   return (
-    <div className="p-8 flex justify-center">
-      <div>{dropDown(items)}</div>
+    <div className="p-8">
+      <div className="text-center mb-10">
+        <p className='mb-10'>
+          This Dropdown menu is built from a JSON file. If a new section adds to
+          the JSON file, the Dropdown menu will update.
+        </p>
+        <Link to="/jsonfile" className="px-8 py-3 bg-red-400 text-white rounded">
+          See the JSON file
+        </Link>
+      </div>
+
+      <div className="ml-10 text-xl pb-10">{dropDown(items)}</div>
     </div>
   );
 };
 
 export default Menu;
-
-// const data = ["James", "John", "Jessica", "Jamie"];
-
-// const Menu = () => {
-//   const [visibilities, setVisibilities] = useState(() =>
-//     data.map((x) => true)
-//   );
-
-//   const handleClick = (event) => {
-//     const index = parseInt(event.currentTarget.dataset.index, 10);
-//     console.log(visibilities)
-//     const newVisibilities = [...visibilities];
-//     console.log(newVisibilities)
-//     newVisibilities[index] = !newVisibilities[index];
-//     setVisibilities(newVisibilities);
-//   };
-
-//   return (
-//     <div className="p-8">
-//       {data.map((value, index) => (
-//         <h1
-//           data-index={index}
-//           onClick={handleClick}
-//           className={visibilities[index] ? "selected" : undefined}
-//           key={index}
-//         >
-//           Hello {value}, you are {visibilities[index] ? "block" : "hidden"}!
-//         </h1>
-//       ))}
-//     </div>
-//   );
-// };
-
-// export default Menu;
