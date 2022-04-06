@@ -103,7 +103,8 @@ const Form = () => {
         gender: getSkills(formValue.gender, radio)[0],
       };
       console.log(object);
-      setFormValue(initialValue)
+      alert('See the Console');
+      setFormValue(initialValue);
       setIsSubmit(false);
     }
   }, [formErrors, isSubmit, formValue, initialValue, getSkills]);
