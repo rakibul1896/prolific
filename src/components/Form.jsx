@@ -1,52 +1,61 @@
-import React, { useCallback, useEffect, useState } from "react";
-import validator from "validator";
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import validator from 'validator';
 
 const checkBox = [
   {
-    name: "Css",
+    name: 'Css',
   },
   {
-    name: "JavaScript",
+    name: 'JavaScript',
   },
   {
-    name: "React",
+    name: 'React',
   },
   {
-    name: "Figma",
+    name: 'Figma',
   },
 ];
 
 const radio = [
   {
-    name: "Male",
+    name: 'Male',
   },
   {
-    name: "Female",
+    name: 'Female',
   },
   {
-    name: "Others",
+    name: 'Others',
   },
 ];
 
 const Form = () => {
-  const initialValue = {
-    email: "",
-    name: "",
-    skills: [...Array(5).fill(false)],
-    gender: "",
-  };
+  const initialValue = useMemo(() => {
+    return {
+      email: '',
+      name: '',
+      skills: [...Array(4).fill(false)],
+      gender: [...Array(3).fill(false)],
+    };
+  }, []);
 
   // states
   const [formValue, setFormValue] = useState(initialValue);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
 
+  // console.log(formValue.gender);
   // functions
-  const handleOnChange = (position) => {
+  const handleOnChangeCheckbox = (position) => {
     const updatedCheckedState = formValue.skills.map((item, index) =>
       index === position ? !item : item
     );
     setFormValue({ ...formValue, skills: updatedCheckedState });
+  };
+  const handleOnChangeRadio = (position) => {
+    const updateGenderState = formValue.gender.map((value, index) =>
+      index === position ? !value : false
+    );
+    setFormValue({ ...formValue, gender: updateGenderState });
   };
 
   const handleChange = (e) => {
@@ -64,40 +73,40 @@ const Form = () => {
     const errors = {};
     const validate = validator.isEmail(values.email);
     if (!values.email) {
-      errors.email = "Email is required.";
+      errors.email = 'Email is required.';
     } else if (!validate) {
-      errors.email = "Enter a valid email address !";
+      errors.email = 'Enter a valid email address !';
     }
-    if (!values.name) errors.name = "Name is required.";
-    if (!values.skills.includes(true)) errors.skills = "Skills is required.";
-
+    if (!values.name) errors.name = 'Name is required.';
+    if (!values.skills.includes(true)) errors.skills = 'Skills is required.';
     return errors;
   };
 
-  const getSkills = useCallback(() => {
-    const index = formValue.skills.reduce(
+  const getSkills = useCallback((state, boxes) => {
+    const index = state.reduce(
       (acc, val, ind) => (val === true ? acc.concat(ind) : acc),
       []
     );
     const skills = index.reduce(
-      (acc, val) => acc.concat(checkBox[val].name.toLowerCase()),
+      (acc, val) => acc.concat(boxes[val].name.toLowerCase()),
       []
     );
-
     return skills;
-  }, [formValue]);
+  }, []);
 
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       const object = {
         email: formValue.email,
         name: formValue.name,
-        skills: getSkills(),
-        gender: formValue.gender.toLowerCase(),
+        skills: getSkills(formValue.skills, checkBox),
+        gender: getSkills(formValue.gender, radio)[0],
       };
       console.log(object);
+      setFormValue(initialValue)
+      setIsSubmit(false);
     }
-  }, [formErrors, isSubmit, formValue, getSkills]);
+  }, [formErrors, isSubmit, formValue, initialValue, getSkills]);
 
   return (
     <div className="flex justify-center p-10">
@@ -141,7 +150,7 @@ const Form = () => {
                     name={name}
                     value={name}
                     checked={formValue.skills[ind]}
-                    onChange={() => handleOnChange(ind)}
+                    onChange={() => handleOnChangeCheckbox(ind)}
                   />
                   <label htmlFor={`custom-checkbox-${ind}`} className="ml-1">
                     {name}
@@ -153,7 +162,7 @@ const Form = () => {
           <p className="text-red-500">{formErrors.skills}</p>
         </div>
 
-        <div className="mt-4" onChange={handleChange}>
+        <div className="mt-4">
           <p className="mb-1">Gender :</p>
           {radio.map(({ name }, ind) => {
             return (
@@ -162,6 +171,8 @@ const Form = () => {
                   type="radio"
                   value={name}
                   name="gender"
+                  checked={formValue.gender[ind]}
+                  onChange={(e) => handleOnChangeRadio(ind)}
                   className="mr-1"
                 />
                 {name}

@@ -33,6 +33,7 @@ const Info = () => {
           className="px-8 py-2 bg-red-400 text-white rounded mr-5"
           href="https://jsonplaceholder.typicode.com/users"
           target="_blank"
+          rel="noopener noreferrer"
         >
           Users Api
         </a>
@@ -40,6 +41,7 @@ const Info = () => {
           className="px-8 py-2 bg-red-400 text-white rounded"
           href="https://jsonplaceholder.typicode.com/albums"
           target="_blank"
+          rel="noopener noreferrer"
         >
           Albums Api
         </a>
