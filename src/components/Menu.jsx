@@ -53,25 +53,24 @@ const Menu = () => {
   const dropDown = (data) => {
     return data.map((val) => {
       return (
-        <div
-          className="ml-5 cursor-pointer"
-          key={val.id}
-          data-children={val.items.length > 0 && val.label}
-          onClick={handleClick}
-        >
+        <div className="ml-5 cursor-pointer text-sm sm:text-base" key={val.id}>
           <div className="flex items-center">
-            {val.label}
-            <div className="text-sm ml-1.5">
+            <p
+              data-children={val.items.length > 0 && val.label}
+              onClick={handleClick}
+              className='flex items-center'
+            >
+              {val.label}
               {val.items.length > 0 ? (
                 showItems(val.label) ? (
-                  <AiFillCaretUp className=" text-blue-400" />
+                  <AiFillCaretUp className=" text-blue-400 text-sm ml-1.5" />
                 ) : (
-                  <AiFillCaretDown />
+                  <AiFillCaretDown className=" text-sm ml-1.5" />
                 )
               ) : (
                 ''
               )}
-            </div>
+            </p>
           </div>
           <div
             className={
@@ -88,11 +87,14 @@ const Menu = () => {
   return (
     <div className="p-8">
       <div className="text-center mb-10">
-        <p className='mb-10'>
+        <p className="mb-10">
           This Dropdown menu is built from a JSON file. If a new section adds to
           the JSON file, the Dropdown menu will update.
         </p>
-        <Link to="/jsonfile" className="px-8 py-3 bg-red-400 text-white rounded">
+        <Link
+          to="/jsonfile"
+          className="px-8 py-3 bg-red-400 text-white rounded"
+        >
           See the JSON file
         </Link>
       </div>

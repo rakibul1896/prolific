@@ -141,10 +141,10 @@ const Form = () => {
 
         <div className="mt-4">
           <h3>Skills :</h3>
-          <div className="flex mt-1">
+          <div className="flex flex-wrap mt-1">
             {checkBox.map(({ name }, ind) => {
               return (
-                <div className="mr-3" key={ind}>
+                <div className="flex items-center justify-evenly mr-3" key={ind}>
                   <input
                     type="checkbox"
                     id={`custom-checkbox-${ind}`}
@@ -165,21 +165,23 @@ const Form = () => {
 
         <div className="mt-4">
           <p className="mb-1">Gender :</p>
-          {radio.map(({ name }, ind) => {
-            return (
-              <label key={ind} className="mr-3">
-                <input
-                  type="radio"
-                  value={name}
-                  name="gender"
-                  checked={formValue.gender[ind]}
-                  onChange={(e) => handleOnChangeRadio(ind)}
-                  className="mr-1"
-                />
-                {name}
-              </label>
-            );
-          })}
+          <div className='flex'>
+            {radio.map(({ name }, ind) => {
+              return (
+                <label key={ind} className="flex items-center mr-3">
+                  <input
+                    type="radio"
+                    value={name}
+                    name="gender"
+                    checked={formValue.gender[ind]}
+                    onChange={(e) => handleOnChangeRadio(ind)}
+                    className="mr-1"
+                  />
+                  {name}
+                </label>
+              );
+            })}
+          </div>
         </div>
 
         <button

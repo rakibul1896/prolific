@@ -19,7 +19,7 @@ const Info = () => {
         })
       )
       .catch((errors) => {
-        // react on errors.
+        //  on errors.
       });
   }, []);
   return (
@@ -30,7 +30,7 @@ const Info = () => {
       </p>
       <div className="flex justify-center my-6">
         <a
-          className="px-8 py-2 bg-red-400 text-white rounded mr-5"
+          className="px-3 sm:px-8 py-2 bg-red-400 text-sm sm:text-base text-white rounded mr-5"
           href="https://jsonplaceholder.typicode.com/users"
           target="_blank"
           rel="noopener noreferrer"
@@ -38,7 +38,7 @@ const Info = () => {
           Users Api
         </a>
         <a
-          className="px-8 py-2 bg-red-400 text-white rounded"
+          className="px-3 sm:px-8 py-2 bg-red-400 text-sm sm:text-base text-white rounded"
           href="https://jsonplaceholder.typicode.com/albums"
           target="_blank"
           rel="noopener noreferrer"
@@ -75,7 +75,7 @@ const Info = () => {
           {albumDetails.map((val, ind) => {
             return (
               <div
-                className="flex flex-col lg:flex-row shadow-md border border-gray-200 rounded-md overflow-hidden my-6"
+                className="flex flex-col lg:flex-row items-center lg:items-start shadow-md border border-gray-200 rounded-md overflow-hidden my-6"
                 key={ind}
               >
                 <img

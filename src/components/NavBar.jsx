@@ -18,12 +18,12 @@ const NavLink = ({
 const NavBar = () => {
   return (
     <div className="flex justify-center  bg-gray-600 ">
-      <div className="flex flex-col smp:flex-row w-11/12 2xl:w-350 text-center">
+      <div className="flex smp:flex-row w-11/12 2xl:w-350 text-center">
       <NavLink
         to="/"
         activeClassName="text-red-300"
         inActiveClassName="text-white"
-        className="px-3 py-4"
+        className="px-1.5 smp:px-3 py-4 text-sm smp:text-base"
       >
         Home
       </NavLink>
@@ -31,7 +31,7 @@ const NavBar = () => {
         to="/search"
         activeClassName="text-red-300"
         inActiveClassName="text-white"
-        className="px-3 py-4"
+        className="px-1.5 smp:px-3 py-4 text-sm smp:text-base"
       >
         Search
       </NavLink>
@@ -39,7 +39,7 @@ const NavBar = () => {
         to="/form"
         activeClassName="text-red-300"
         inActiveClassName="text-white"
-        className="px-3 py-4"
+        className="px-1.5 smp:px-3 py-4 text-sm smp:text-base"
       >
         My Form
       </NavLink>
@@ -47,7 +47,7 @@ const NavBar = () => {
         to="/info"
         activeClassName="text-red-300"
         inActiveClassName="text-white"
-        className="px-3 py-4"
+        className="px-1.5 smp:px-3 py-4 text-sm smp:text-base"
       >
         Info
       </NavLink>
@@ -55,7 +55,7 @@ const NavBar = () => {
         to="/bonus"
         activeClassName="text-red-300"
         inActiveClassName="text-white"
-        className="px-3 py-4"
+        className="px-1.5 smp:px-3 py-4 text-sm smp:text-base"
       >
         Bonus
       </NavLink>
